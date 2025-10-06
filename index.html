@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Interactif | Expert en Électromécanique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Industrial Slate -->
+    <!-- Application Structure Plan: L'application est structurée comme un tableau de bord de compétences interactif plutôt qu'un document linéaire. Elle commence par une synthèse percutante, suivie d'une navigation thématique (Compétences, Études de cas, Impact). La section "Études de Cas" est le cœur de l'application, avec un système de filtrage dynamique par équipement et type d'intervention. Cette architecture permet à un recruteur ou un manager de cibler rapidement les réalisations les plus pertinentes pour ses besoins, transformant une lecture passive en une exploration active. Le flux est conçu pour guider l'utilisateur du "qui" (profil) au "quoi" (compétences) puis au "comment" (études de cas) et enfin au "pourquoi" (impact chiffré). -->
+    <!-- Visualization & Content Choices: Les réalisations (S/T/A/R) sont présentées sous forme de cartes cliquables pour éviter un mur de texte. L'interaction principale est le filtrage et l'affichage des détails dans une modale, ce qui maintient l'interface propre. Pour les données quantitatives, un graphique à barres Chart.js a été choisi pour visualiser l'économie spectaculaire (-97.6%) sur les pièces Unifuges, ce qui est bien plus marquant qu'un simple texte. Les autres chiffres clés sont présentés dans des cartes de métriques pour un impact visuel immédiat. Ces choix soutiennent l'objectif de présenter un profil axé sur les résultats et l'efficacité. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width .3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-slate-800 text-white text-center py-12 px-4 shadow-xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2">Électromécanicien Industriel</h1>
+        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">De la technique terrain à la gestion de projets : fiabilisation, optimisation et sécurisation des processus industriels.</p>
+    </header>
+
+    <nav id="navbar" class="sticky top-0 bg-white/80 backdrop-blur-lg shadow-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center items-center h-16">
+                <div class="flex space-x-8 text-sm md:text-base font-medium">
+                    <a href="#profil" class="nav-link text-slate-600 hover:text-blue-600">Profil</a>
+                    <a href="#competences" class="nav-link text-slate-600 hover:text-blue-600">Compétences Clés</a>
+                    <a href="#etudes-de-cas" class="nav-link text-slate-600 hover:text-blue-600">Études de Cas</a>
+                    <a href="#impact" class="nav-link text-slate-600 hover:text-blue-600">Impact Chiffré</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="profil" class="my-12 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Profil & Philosophie</h2>
+            <p class="text-center max-w-4xl mx-auto text-slate-600 mb-8">Cette section présente la synthèse du profil professionnel, mettant en lumière l'état d'esprit orienté action et la double casquette de technicien expert et de pédagogue. Elle sert de fondation pour comprendre la démarche derrière les réalisations techniques présentées plus loin.</p>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Expertise Terrain</h3>
+                    <p>Spécialisé en isolateurs, équipements process et validation FAT/SAT. Axé sur la résolution rapide de pannes complexes et la continuité de production.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Prise de Décision</h3>
+                    <p>Même face au doute, si une action est nécessaire et sûre, j'agis et j'assume la responsabilité pour éviter la dégradation par inaction. La sécurité reste la priorité absolue.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Pédagogie & Standardisation</h3>
+                    <p>Je forme les équipes jusqu'à l'autonomie et rédige les SOP pour pérenniser les bonnes pratiques, sécuriser les interventions et accélérer les dépannages.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="competences" class="my-20 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Compétences Clés</h2>
+            <p class="text-center max-w-4xl mx-auto text-slate-600 mb-8">Explorez les domaines d'expertise principaux. Ces compétences, allant de l'automatisme à la gestion de projet, forment le socle technique et méthodologique de toutes les interventions. Elles illustrent la capacité à opérer à la fois au niveau micro (le composant) et macro (le projet).</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <h3 class="text-lg font-bold mb-2">Automatismes & Logique</h3>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600">
+                        <li>Siemens S7-1200/300</li>
+                        <li>Diagnostic avancé</li>
+                        <li>Analyse d'interverrouillages</li>
+                        <li>Sécurisation de logiques</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <h3 class="text-lg font-bold mb-2">Intégrité des Enceintes</h3>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600">
+                        <li>Tests fuite H₂ 5%/N₂</li>
+                        <li>Expertise Isolateurs</li>
+                        <li>Réglages mécaniques fins</li>
+                        <li>Maintenance servomoteurs</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <h3 class="text-lg font-bold mb-2">Mise en Service & Qualité</h3>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600">
+                        <li>Checklists FAT/SAT</li>
+                        <li>Tests fonctionnels</li>
+                        <li>Requalification GMP</li>
+                        <li>Gestion CAPA</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+                    <h3 class="text-lg font-bold mb-2">Gestion & Transfert</h3>
+                     <ul class="list-disc list-inside space-y-1 text-slate-600">
+                        <li>Pilotage mini-projets</li>
+                        <li>Rédaction SOP</li>
+                        <li>Formation des équipes</li>
+                        <li>Coordination terrain</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="etudes-de-cas" class="my-20 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Études de Cas Interactives</h2>
+            <p class="text-center max-w-4xl mx-auto text-slate-600 mb-8">Cette section regroupe des réalisations techniques et opérationnelles marquantes. Utilisez les filtres pour explorer des cas spécifiques par équipement ou par type d'intervention. Chaque carte représente une problématique concrète résolue, démontrant l'application pratique des compétences.</p>
+            
+            <div id="filters" class="flex flex-wrap justify-center gap-2 mb-8">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="Isolateur">Isolateur</button>
+                <button class="filter-btn" data-filter="Unifuge">Unifuge</button>
+                <button class="filter-btn" data-filter="Périphérique">Périphérique</button>
+                <button class="filter-btn" data-filter="Fuite">Fuite</button>
+                <button class="filter-btn" data-filter="Logique">Logique</button>
+                <button class="filter-btn" data-filter="Optimisation">Optimisation</button>
+            </div>
+
+            <div id="case-studies-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="impact" class="my-20 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Impact Chiffré & Projets</h2>
+            <p class="text-center max-w-4xl mx-auto text-slate-600 mb-8">La valeur d'une intervention se mesure aussi par son impact financier et opérationnel. Cette section met en évidence les résultats quantifiables à travers des métriques clés et une visualisation de l'optimisation des coûts, ainsi que la portée des responsabilités en gestion de projet.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl font-bold">> 150 M€</div>
+                    <div class="mt-2">Projets CAPEX gérés techniquement</div>
+                </div>
+                <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl font-bold">> 200 000 €</div>
+                    <div class="mt-2">Perte produit évitée sur opération critique</div>
+                </div>
+                 <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl font-bold">-97,6%</div>
+                    <div class="mt-2">Économie sur pièces de rechange (vs OEM)</div>
+                </div>
+                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-4xl font-bold">&lt; 2h</div>
+                    <div class="mt-2">Diagnostic sur panne externe non résolue</div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-xl border border-slate-200">
+                <h3 class="text-xl font-semibold text-center text-slate-800 mb-4">Optimisation des Coûts : Cas des Joints Unifuges</h3>
+                <p class="text-center text-slate-600 mb-4">Ce graphique illustre la réduction drastique du coût par pièce après analyse et qualification d'une solution alternative, passant de 420€ (fournisseur OEM) à 10€ (solution développée).</p>
+                <div class="chart-container">
+                    <canvas id="cost-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 text-center py-6">
+        <p>&copy; 2025 Portfolio Interactif. Construit pour démontrer une expertise technique et un leadership opérationnel.</p>
+    </footer>
+
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center p-4 z-50 opacity-0">
+        <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="sticky top-0 bg-white border-b border-slate-200 p-4 flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800"></h3>
+                <button id="modal-close" class="text-slate-500 hover:text-red-600">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const caseStudiesData = [
+            {
+                title: "Connecting Box : Sécurisation Logique",
+                category: ["Isolateur", "Logique"],
+                content: {
+                    S: "Le joint de porte se gonflait sans commande en mode maintenance, créant un risque EHS (surpression) et matériel.",
+                    T: "Empêcher tout gonflage si la fermeture mécanique de la porte n'est pas confirmée.",
+                    A: "Analyse du programme avec un automaticien, modification des interverrouillages, tests fonctionnels et déploiement d'une CAPA sur tout le parc.",
+                    R: "Comportement sécurisé validé, risque éliminé et standard logiciel mis à jour."
+                }
+            },
+            {
+                title: "Isolateurs : Internalisation Détection Fuites",
+                category: ["Isolateur", "Optimisation"],
+                content: {
+                    S: "Forte dépendance à une équipe spécialisée externe pour la détection de fuites, entraînant des délais longs.",
+                    T: "Rendre le bâtiment et l'équipe de maintenance autonomes.",
+                    A: "Achat de matériel H₂/N₂, création de procédures et check-lists, et formation complète des techniciens.",
+                    R: "Temps de réaction réduit, coûts maîtrisés, et contrôle qualité augmenté. Initiative reconnue et partagée avec d'autres sites."
+                }
+            },
+            {
+                title: "Isolateur SKAN : Fuite 'Invisible'",
+                category: ["Isolateur", "Fuite"],
+                content: {
+                    S: "Fuite persistante non détectée par le gaz traceur, causant un défaut d'étanchéité récurrent.",
+                    T: "Rétablir l'étanchéité et la répétabilité de la fermeture du clapet de sortie.",
+                    A: "Remplacement du servomoteur (usure) et entretien préventif complet du clapet (recalage, nettoyage, contrôle).",
+                    R: "Étanchéité retrouvée, réduisant le risque de dérive qualité et les arrêts non planifiés."
+                }
+            },
+            {
+                title: "Isolateur SKAN : Fuite Structurelle",
+                category: ["Isolateur", "Fuite"],
+                content: {
+                    S: "Fuite > 0,5 L/min introuvable malgré de multiples interventions (interne + OEM).",
+                    T: "Diagnostiquer et éliminer la cause racine de la fuite.",
+                    A: "Après des tests ciblés, démontage complet d'un ensemble pour mettre en évidence une soudure de porte partiellement réalisée, masquée par un autre symptôme.",
+                    R: "Réparation structurelle effectuée par le fournisseur, pannes évitées sur des équipements similaires, disponibilité accrue."
+                }
+            },
+            {
+                title: "Unifuges : Optimisation Coûts Joints",
+                category: ["Unifuge", "Optimisation"],
+                content: {
+                    S: "Dégradation des joints de tête de pompe (nettoyage IPA), libérant des particules. Solution OEM très coûteuse (420 €/pièce).",
+                    T: "Éliminer la dégradation et optimiser radicalement les coûts.",
+                    A: "Qualification d'une matière résistante, fabrication à façon des joints par un fournisseur alternatif. Coût unitaire : 10 €.",
+                    R: "Disparition des particules, MTBF prolongé, et économie substantielle de 97,6% sur le coût de la pièce."
+                }
+            },
+            {
+                title: "Brodeuse Industrielle : Panne Externe",
+                category: ["Périphérique", "Logique"],
+                content: {
+                    S: "Défaut de coupe-fil non résolu après 2000 € de frais, sur un parc de machines critiques pour une cliente.",
+                    T: "Rétablir l'automatisme de coupe-fil pour sécuriser la production.",
+                    A: "Application d'une méthodologie de diagnostic transférable (GSK). En moins de 2h, identification d'un capteur inductif desserré, repositionnement et sécurisation.",
+                    R: "Reprise nominale, gain de productivité et coûts d'intervention externe évités."
+                }
+            },
+             {
+                title: "SAS DPTE Getinge : Fiabilisation",
+                category: ["Périphérique", "Optimisation"],
+                content: {
+                    S: "Absence de plan de maintenance, usure anormale des patins, risque de grippage et de détérioration de portes coûteuses (~20 000 €).",
+                    T: "Établir un plan de maintenance, sécuriser l'exploitation et optimiser les coûts.",
+                    A: "Définition des opérations avec l'OEM, sous-traitance de la fabrication des pièces (plus économique), et déploiement d'un plan de remplacement et polissage.",
+                    R: "SAS fiabilisés, prévention du grippage, protection des portes et continuité de production assurée avec des coûts maîtrisés."
+                }
+            },
+            {
+                title: "Unifuges : Réparation Carte Électronique",
+                category: ["Unifuge", "Logique"],
+                content: {
+                    S: "Détecteur de fuite interdisant le démarrage. Carte électronique propriétaire facturée ~500 € par l'OEM.",
+                    T: "Rétablir le fonctionnement avec une solution économique et rapide.",
+                    A: "Analyse de la carte, identification et remplacement des composants discrets défaillants (coût minime).",
+                    R: "Remise en service de la carte, coût et délais fortement réduits par rapport au remplacement OEM."
+                }
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const grid = document.getElementById('case-studies-grid');
+            const filtersContainer = document.getElementById('filters');
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+
+            function renderCaseStudies(filter = 'all') {
+                grid.innerHTML = '';
+                const filteredData = filter === 'all' 
+                    ? caseStudiesData 
+                    : caseStudiesData.filter(item => item.category.includes(filter));
+
+                filteredData.forEach(study => {
+                    const card = document.createElement('div');
+                    card.className = 'case-study-card bg-white rounded-lg shadow-md p-5 border border-slate-200 cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
+                    card.innerHTML = `
+                        <h3 class="font-bold text-blue-600 mb-2">${study.title}</h3>
+                        <p class="text-sm text-slate-500 mb-3">${study.content.S.substring(0, 80)}...</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${study.category.map(cat => `<span class="text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-full">${cat}</span>`).join('')}
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openModal(study));
+                    grid.appendChild(card);
+                });
+            }
+
+            function openModal(study) {
+                modalTitle.textContent = study.title;
+                modalBody.innerHTML = `
+                    <div class="space-y-4">
+                        <div><strong class="text-slate-800 block">Situation:</strong><p class="text-slate-600">${study.content.S}</p></div>
+                        <div><strong class="text-slate-800 block">Tâche:</strong><p class="text-slate-600">${study.content.T}</p></div>
+                        <div><strong class="text-slate-800 block">Action:</strong><p class="text-slate-600">${study.content.A}</p></div>
+                        <div><strong class="text-slate-800 block">Résultat:</strong><p class="text-slate-600 font-semibold">${study.content.R}</p></div>
+                    </div>
+                `;
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                }, 10);
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 250);
+            }
+
+            filtersContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    const filter = e.target.getAttribute('data-filter');
+                    renderCaseStudies(filter);
+                }
+            });
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            const costChartCtx = document.getElementById('cost-chart').getContext('2d');
+            const costChart = new Chart(costChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Coût Pièce'],
+                    datasets: [{
+                        label: 'Solution OEM',
+                        data: [420],
+                        backgroundColor: 'rgba(100, 116, 139, 0.6)',
+                        borderColor: 'rgba(100, 116, 139, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Solution Optimisée',
+                        data: [10],
+                        backgroundColor: 'rgba(37, 99, 235, 0.6)',
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '€'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const navbar = document.getElementById('navbar');
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop) {
+                    navbar.style.top = '-80px';
+                } else {
+                    navbar.style.top = '0';
+                }
+                lastScrollTop = scrollTop;
+            });
+
+
+            renderCaseStudies();
+            
+            // Add active styles to filter buttons
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .filter-btn {
+                    padding: 0.5rem 1rem;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 9999px;
+                    background-color: white;
+                    color: #475569;
+                    font-weight: 500;
+                    transition: all 0.2s;
+                }
+                .filter-btn:hover {
+                    background-color: #f1f5f9;
+                    border-color: #94a3b8;
+                }
+                .filter-btn.active {
+                    background-color: #2563eb;
+                    color: white;
+                    border-color: #2563eb;
+                }
+            `;
+            document.head.appendChild(style);
+
+        });
+    </script>
+
+</body>
+</html>
