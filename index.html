@@ -45,9 +45,31 @@
         }
         .modal {
             transition: opacity 0.25s ease;
+            /* Correction pour assurer le centrage vertical/horizontal */
+            display: flex; /* Assurer que flexbox est utilisé */
+            align-items: center; 
+            justify-content: center;
         }
         .modal-content {
             transition: transform 0.25s ease;
+        }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            background-color: white;
+            color: #475569;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
         }
     </style>
 </head>
@@ -55,7 +77,7 @@
 
     <header class="bg-slate-800 text-white text-center py-12 px-4 shadow-xl">
         <h1 class="text-4xl md:text-5xl font-bold mb-2">Électromécanicien Industriel</h1>
-        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">De la technique terrain à la gestion de projets : fiabilisation, optimisation et sécurisation des processus industriels.</p>
+        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">De la technique terrain à la gestion de projets : dépannage, fiabilisation, optimisation et sécurisation des processus industriels.</p>
     </header>
 
     <nav id="navbar" class="sticky top-0 bg-white/80 backdrop-blur-lg shadow-md z-50 transition-all duration-300">
@@ -151,49 +173,79 @@
 
             <div id="case-studies-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             </div>
+            <!-- Conteneur pour le bouton 'Voir plus de cas' -->
+            <div id="load-more-container" class="text-center mt-8">
+                <button id="load-more-btn" class="hidden bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">
+                    Voir plus de cas
+                </button>
+            </div>
         </section>
 
         <section id="impact" class="my-20 scroll-mt-24">
             <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Impact Chiffré & Projets</h2>
             <p class="text-center max-w-4xl mx-auto text-slate-600 mb-8">La valeur d'une intervention se mesure aussi par son impact financier et opérationnel. Cette section met en évidence les résultats quantifiables à travers des métriques clés et une visualisation de l'optimisation des coûts, ainsi que la portée des responsabilités en gestion de projet.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
-                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                
+                <!-- Impact 1: > 150 M€ -->
+                <!-- Changement: top-full devient -top-full (ou top-[calc(-100%-12px)]) pour positionner au-dessus. Le triangle doit pointer vers le bas. -->
+                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center group relative cursor-help">
                     <div class="text-4xl font-bold">> 150 M€</div>
                     <div class="mt-2">Projets CAPEX gérés techniquement</div>
+                    <div class="absolute z-10 bottom-full left-1/2 -translate-x-1/2 mb-3 p-3 w-64 bg-slate-800 text-white text-sm rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                        Supervision technique et participation aux FAT/SAT de nouveaux équipements, en support à l’ingénieur projet, lors du revamping d’un bâtiment de production.
+                        <!-- Triangle du bas vers le haut -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 transform rotate-45 origin-top-left -mt-1"></div>
+                    </div>
                 </div>
-                <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center">
+                <!-- Impact 2: > 200 000 € -->
+                <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center group relative cursor-help">
                     <div class="text-4xl font-bold">> 200 000 €</div>
                     <div class="mt-2">Perte produit évitée sur opération critique</div>
+                    <div class="absolute z-10 bottom-full left-1/2 -translate-x-1/2 mb-3 p-3 w-64 bg-slate-800 text-white text-sm rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                        Intervention rapide et sécurisée sur un circuit d'eau de refroidissement critique pour des chambres froides, empêchant la perte d'un lot de production (bulk) sensible à la température.
+                        <!-- Triangle du bas vers le haut -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 transform rotate-45 origin-top-left -mt-1"></div>
+                    </div>
                 </div>
-                 <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center">
+
+                <!-- Impact 3: -97,6% -->
+                 <div class="bg-slate-800 text-white p-6 rounded-lg shadow-lg text-center group relative cursor-help">
                     <div class="text-4xl font-bold">-97,6%</div>
                     <div class="mt-2">Économie sur pièces de rechange (vs OEM)</div>
+                    <div class="absolute z-10 bottom-full left-1/2 -translate-x-1/2 mb-3 p-3 w-64 bg-slate-800 text-white text-sm rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                        Qualification d'une solution de joint compatible IPA pour têtes de pompe Unifuges, réduisant le coût unitaire de 420€ (OEM) à 10€ (fournisseur alternatif).
+                        <!-- Triangle du bas vers le haut -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 transform rotate-45 origin-top-left -mt-1"></div>
+                    </div>
                 </div>
-                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center">
+
+                <!-- Impact 4: < 2h -->
+                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center group relative cursor-help">
                     <div class="text-4xl font-bold">&lt; 2h</div>
                     <div class="mt-2">Diagnostic sur panne externe non résolue</div>
-                </div>
-                <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg text-center">
-                    <div class="text-4xl font-bold">&lt; 3h</div>
-                    <div class="mt-2">Diagnostic sur panne externe non résolue</div>
+                    <div class="absolute z-10 bottom-full left-1/2 -translate-x-1/2 mb-3 p-3 w-64 bg-slate-800 text-white text-sm rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100">
+                        Diagnostic ultra-rapide (moins de 2 heures) sur un défaut de coupe-fil sur une brodeuse industrielle, non résolu après plusieurs interventions externes coûteuses. Cause : capteur inductif desserré.
+                        <!-- Triangle du bas vers le haut -->
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 transform rotate-45 origin-top-left -mt-1"></div>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-xl border border-slate-200">
+            <!-- <div class="bg-white p-6 rounded-lg shadow-xl border border-slate-200">
                 <h3 class="text-xl font-semibold text-center text-slate-800 mb-4">Optimisation des Coûts : Cas des Joints Unifuges</h3>
                 <p class="text-center text-slate-600 mb-4">Ce graphique illustre la réduction drastique du coût par pièce après analyse et qualification d'une solution alternative, passant de 420€ (fournisseur OEM) à 10€ (solution développée).</p>
                 <div class="chart-container">
                     <canvas id="cost-chart"></canvas>
                 </div>
-            </div>
+            </div> -->
         </section>
 
     </main>
 
     <footer class="bg-slate-800 text-slate-300 text-center py-6">
-        <p>&copy; 2025 Portfolio Interactif. Construit pour démontrer une expertise technique et un leadership opérationnel.</p>
+        <p>&copy; 2025 Portfolio Interactif. La détermination fait la différence.</p>
     </footer>
 
-    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center p-4 z-50 opacity-0">
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-60 hidden p-4 z-50 opacity-0">
         <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
             <div class="sticky top-0 bg-white border-b border-slate-200 p-4 flex justify-between items-center">
                 <h3 id="modal-title" class="text-xl font-bold text-slate-800"></h3>
@@ -203,87 +255,198 @@
             </div>
         </div>
     </div>
+    <!-- Modal pour l'affichage des études de cas détaillées -->
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-60 hidden p-4 z-50 opacity-0">
+        <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="sticky top-0 bg-white border-b border-slate-200 p-4 flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800"></h3>
+                <button id="modal-close" class="text-slate-500 hover:text-red-600 text-2xl font-light leading-none">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6">
+            </div>
+        </div>
+    </div>
 
     <script>
         const caseStudiesData = [
             {
-                title: "Connecting Box : Sécurisation Logique",
-                category: ["Isolateur", "Logique"],
+                title: "Connecting Box — sécurisation gonflage joint de porte",
+                category: ["Isolateur", "Logique", "Sécurité"],
                 content: {
-                    S: "Le joint de porte se gonflait sans commande en mode maintenance, créant un risque EHS (surpression) et matériel.",
-                    T: "Empêcher tout gonflage si la fermeture mécanique de la porte n'est pas confirmée.",
-                    A: "Analyse du programme avec un automaticien, modification des interverrouillages, tests fonctionnels et déploiement d'une CAPA sur tout le parc.",
-                    R: "Comportement sécurisé validé, risque éliminé et standard logiciel mis à jour."
+                    S: "En mode maintenance, le ventilateur doit tourner porte ouverte. Après fermeture, le joint se gonflait automatiquement sans commande → risque EHS et blocage HMI.",
+                    T: "Empêcher tout gonflage si la fermeture mécanique n’est pas confirmée.",
+                    A: "Reproduction scénario, analyse programme avec automaticien, ajout conditions d’interverrouillage, tests fonctionnels, CAPA déployée multi-actifs (GMP).",
+                    R: "Comportement sécurisé validé, risque éliminé, standard logiciel mis à jour."
                 }
             },
             {
-                title: "Isolateurs : Internalisation Détection Fuites",
-                category: ["Isolateur", "Optimisation"],
+                title: "Isolateurs — détection de fuites internalisée & formation",
+                category: ["Isolateur", "Qualité", "Optimisation"],
                 content: {
-                    S: "Forte dépendance à une équipe spécialisée externe pour la détection de fuites, entraînant des délais longs.",
-                    T: "Rendre le bâtiment et l'équipe de maintenance autonomes.",
-                    A: "Achat de matériel H₂/N₂, création de procédures et check-lists, et formation complète des techniciens.",
-                    R: "Temps de réaction réduit, coûts maîtrisés, et contrôle qualité augmenté. Initiative reconnue et partagée avec d'autres sites."
+                    S: "Dépendance à une équipe spécialisée, délais longs pour les fuites.",
+                    T: "Rendre le bâtiment et l’équipe de maintenance autonomes.",
+                    A: "Choix/achat matériel H₂ 5%/N₂, procédures & check-lists, formation techniciens.",
+                    R: "Temps de réaction réduit, coûts maîtrisés, contrôle qualité accru, appui à d’autres sites."
                 }
             },
             {
-                title: "Isolateur SKAN : Fuite 'Invisible'",
-                category: ["Isolateur", "Fuite"],
+                title: "Isolateur SKAN — clapet de sortie : fuite « invisible »",
+                category: ["Isolateur", "Mécanique", "Fiabilité", "Fuite"],
                 content: {
-                    S: "Fuite persistante non détectée par le gaz traceur, causant un défaut d'étanchéité récurrent.",
-                    T: "Rétablir l'étanchéité et la répétabilité de la fermeture du clapet de sortie.",
-                    A: "Remplacement du servomoteur (usure) et entretien préventif complet du clapet (recalage, nettoyage, contrôle).",
-                    R: "Étanchéité retrouvée, réduisant le risque de dérive qualité et les arrêts non planifiés."
+                    S: "Fuite non détectée par gaz traceur, défaut persistant.",
+                    T: "Rétablir l’étanchéité et la répétabilité de fermeture.",
+                    A: "Remplacement servomoteur usé, entretien préventif clapet (recalage/contrôles).",
+                    R: "Étanchéité récupérée, réduction des dérives qualité et arrêts non planifiés."
                 }
             },
             {
-                title: "Isolateur SKAN : Fuite Structurelle",
-                category: ["Isolateur", "Fuite"],
+                title: "Isolateur SKAN — fuite > 0,5 L/min introuvable (Connecting Box)",
+                category: ["Isolateur", "Diagnostic", "GMP", "Fuite"],
                 content: {
-                    S: "Fuite > 0,5 L/min introuvable malgré de multiples interventions (interne + OEM).",
-                    T: "Diagnostiquer et éliminer la cause racine de la fuite.",
-                    A: "Après des tests ciblés, démontage complet d'un ensemble pour mettre en évidence une soudure de porte partiellement réalisée, masquée par un autre symptôme.",
-                    R: "Réparation structurelle effectuée par le fournisseur, pannes évitées sur des équipements similaires, disponibilité accrue."
+                    S: "Fuite persistante malgré interventions internes et OEM, symptômes incohérents.",
+                    T: "Diagnostiquer et éliminer la fuite.",
+                    A: "Tests ciblés (~4 h), carte blanche sur équipement neuf GMP, démontage complet, mise en évidence d’une soudure de porte partielle, remontage provisoire en attendant réparation.",
+                    R: "Réparation structurelle OEM, pannes évitées sur séries similaires, disponibilité accrue."
                 }
             },
             {
-                title: "Unifuges : Optimisation Coûts Joints",
-                category: ["Unifuge", "Optimisation"],
+                title: "Isolateur SKAN — fuite progressive après changement de filtre",
+                category: ["Isolateur", "Maintenance", "Qualité", "Fuite"],
                 content: {
-                    S: "Dégradation des joints de tête de pompe (nettoyage IPA), libérant des particules. Solution OEM très coûteuse (420 €/pièce).",
-                    T: "Éliminer la dégradation et optimiser radicalement les coûts.",
-                    A: "Qualification d'une matière résistante, fabrication à façon des joints par un fournisseur alternatif. Coût unitaire : 10 €.",
-                    R: "Disparition des particules, MTBF prolongé, et économie substantielle de 97,6% sur le coût de la pièce."
+                    S: "Fuite apparue après maintenance OEM planifiée.",
+                    T: "Identifier la cause racine.",
+                    A: "Contrôle assemblages, dépose filtres, découverte d’une entretoise doublée dans un joint (erreur remontage).",
+                    R: "Remise en conformité immédiate."
                 }
             },
             {
-                title: "Brodeuse Industrielle : Panne Externe",
-                category: ["Périphérique", "Logique"],
+                title: "Isolateur SKAN — soudure défectueuse caisson de filtre",
+                category: ["Isolateur", "Qualité", "Fabrication", "Fuite"],
                 content: {
-                    S: "Défaut de coupe-fil non résolu après 2000 € de frais, sur un parc de machines critiques pour une cliente.",
-                    T: "Rétablir l'automatisme de coupe-fil pour sécuriser la production.",
-                    A: "Application d'une méthodologie de diagnostic transférable (GSK). En moins de 2h, identification d'un capteur inductif desserré, repositionnement et sécurisation.",
-                    R: "Reprise nominale, gain de productivité et coûts d'intervention externe évités."
-                }
-            },
-             {
-                title: "SAS DPTE Getinge : Fiabilisation",
-                category: ["Périphérique", "Optimisation"],
-                content: {
-                    S: "Absence de plan de maintenance, usure anormale des patins, risque de grippage et de détérioration de portes coûteuses (~20 000 €).",
-                    T: "Établir un plan de maintenance, sécuriser l'exploitation et optimiser les coûts.",
-                    A: "Définition des opérations avec l'OEM, sous-traitance de la fabrication des pièces (plus économique), et déploiement d'un plan de remplacement et polissage.",
-                    R: "SAS fiabilisés, prévention du grippage, protection des portes et continuité de production assurée avec des coûts maîtrisés."
+                    S: "Fuite limite depuis la construction, difficile à localiser (double paroi).",
+                    T: "Localiser précisément le défaut.",
+                    A: "Inspection visuelle + tests ciblés, traçage flux vers soudure double paroi.",
+                    R: "Resoudage zone, renforcement contrôle qualité sur séries similaires."
                 }
             },
             {
-                title: "Unifuges : Réparation Carte Électronique",
-                category: ["Unifuge", "Logique"],
+                title: "Diffusion savoir-faire — appui multi-bâtiments isolateurs",
+                category: ["Isolateur", "Standardisation", "Mentorat"],
                 content: {
-                    S: "Détecteur de fuite interdisant le démarrage. Carte électronique propriétaire facturée ~500 € par l'OEM.",
-                    T: "Rétablir le fonctionnement avec une solution économique et rapide.",
-                    A: "Analyse de la carte, identification et remplacement des composants discrets défaillants (coût minime).",
-                    R: "Remise en service de la carte, coût et délais fortement réduits par rapport au remplacement OEM."
+                    S: "Sites voisins confrontés à incidents similaires.",
+                    T: "Transférer le savoir-faire et fiabiliser leur parc.",
+                    A: "Interventions ciblées, partage standards tests/détection, mentoring équipes.",
+                    R: "Résolutions plus rapides, pratiques homogénéisées."
+                }
+            },
+            {
+                title: "Levmixer PALL — protection pesons au transport",
+                category: ["Périphérique", "Conception", "Optimisation"],
+                content: {
+                    S: "Pesons souvent endommagés, blocage existant peu ergonomique avec outillage.",
+                    T: "Concevoir un blocage simple, sûr, sans outil.",
+                    A: "Pièce retrofit, prototypage et essais terrain, standardisation (≈150 unités).",
+                    R: "Blocage manuel rapide, pesons protégés, manutention plus courte, risques réduits."
+                }
+            },
+            {
+                title: "SAS DPTE Getinge — plan de maintenance & retrofit",
+                category: ["Maintenance", "Fiabilité", "Coûts", "Optimisation"],
+                content: {
+                    S: "Pas de plan précis, usure patins bronze, contact inox/inox, particules, risque blocage DPTE et détérioration portes (~20 k€).",
+                    T: "Établir un plan efficace, sécuriser l’exploitation et optimiser coûts.",
+                    A: "Co-définition opérations (Getinge), sous-traitance économique pour pièces, logistique enlèvement/reprise, remplacement patins + polissage encoches.",
+                    R: "SAS fiabilisés, particules réduites, grippage prévenu, portes protégées, continuité & coûts optimisés."
+                }
+            },
+            {
+                title: "Poêle à pellets — maintenance corrective continue",
+                category: ["Maintenance", "Électronique", "Sécurité", "Périphérique"],
+                content: {
+                    S: "Pannes successives (ventilateur, carte/sondes, résistance d’allumage).",
+                    T: "Diagnostiquer rapidement et remettre en service durablement et à coût maîtrisé.",
+                    A: "Contrôles ciblés, remplacements composants, vérifs électriques & sécurité combustion, consignes préventives.",
+                    R: "Disponibilité rétablie à chaque panne, coûts contenus, méthode diag réutilisable."
+                }
+            },
+            {
+                title: "Brodeuse industrielle 7 têtes — coupe-fil non fonctionnel",
+                category: ["Périphérique", "Mécatronique", "Logique", "Diagnostic"],
+                content: {
+                    S: "Défaut de coupe au changement de couleur, ~2 000 € déjà dépensés sans succès, représentant OEM peu disponible.",
+                    T: "Rétablir l’automatisme de coupe-fil et sécuriser la production.",
+                    A: "Méthodologie diag transférable (capteurs/cinématique). En <2 h : tests capteurs, capteur inductif hypersensible desserré identifié, repositionnement/sécurisation, cycle vérifié.",
+                    R: "Reprise nominale (plus de coupe manuelle), temps récupéré, coûts évités."
+                }
+            },
+            {
+                title: "Volet roulant magasin — variateur équivalent & remise en service",
+                category: ["Électrique", "Dépannage", "Approvisionnement"],
+                content: {
+                    S: "Volet à l’arrêt, prestataire préconise remplacement complet (~11 k€) car variateur « n’existe plus ». Défauts: contacteur puissance + alim commande.",
+                    T: "Rétablir la marche sans remplacer l’ensemble, trouver variateur compatible.",
+                    A: "Mesures & relevé schéma, confirmation défauts, recherche équivalence variateur, commande à l’étranger, adaptation câblage/paramétrage, mise en service < 1 semaine.",
+                    R: "Marche rétablie, ~11 k€ évités, paramétrage/schémas documentés."
+                }
+            },
+            {
+                title: "Eau de refroidissement — intervention à risque (chambres froides)",
+                category: ["Utilités", "Gestion de risque", "Production", "Sécurité"],
+                content: {
+                    S: "Coupure nécessaire vers chambres froides contenant du bulk (risque ≈ 200 k€).",
+                    T: "Réaliser l’intervention en minimisant l’impact thermique et qualité.",
+                    A: "Planification de nuit en hiver, coordination utilités/production/qualité, monitoring T°, plans de repli.",
+                    R: "Zéro perte de bulk, retour nominal maîtrisé, REX documenté."
+                }
+            },
+            {
+                title: "Stock atelier « critique » — pièces de rechange urgentes",
+                category: ["Spare Parts", "GMP", "Optimisation"],
+                content: {
+                    S: "Délais d’approvisionnement pénalisants sur équipements critiques, contraintes GMP.",
+                    T: "Assurer disponibilité immédiate en conformité.",
+                    A: "Sélection références critiques (BOM), min/max, référencement & réassort, stockage GMP, kits d’urgence atelier.",
+                    R: "MTTR réduit, arrêts évités, conformité maintenue."
+                }
+            },
+            {
+                title: "Drive de ligne — déblocage logiciel / reprise rapide",
+                category: ["Automatisme", "Dépannage", "Production", "Logique"],
+                content: {
+                    S: "Lexium Drive bloqué, risque de perte > 40 k€.",
+                    T: "Relancer la production en sécurité et rapidement.",
+                    A: "Diag, chargement d’un programme adapté, tests à vide puis en charge, validation prod/qualité.",
+                    R: "Perte évitée, production relancée, actions préventives en place."
+                }
+            },
+            {
+                title: "Unifuges GS — formation maintenance & traduction EN→FR",
+                category: ["Formation", "Standardisation", "Exploitation"],
+                content: {
+                    S: "Formation OEM en anglais, difficulté compréhension + absences.",
+                    T: "Garantir compréhension et diffusion des bonnes pratiques.",
+                    A: "Traduction simultanée, restitution aux absents, supports synthétiques (mémentos/check-lists).",
+                    R: "Autonomie accrue, sollicitations support réduites, interventions standardisées."
+                }
+            },
+            {
+                title: "Unifuges GS — joints tête de pompe compatibles IPA",
+                category: ["Matériaux", "Fiabilité", "Coûts", "Optimisation"],
+                content: {
+                    S: "Joints dégradés par nettoyages alcoolisés, particules noires, solution OEM ≈ 420 € pièce.",
+                    T: "Éliminer particules, fiabiliser et réduire coût.",
+                    A: "Matière résistante solvants qualifiée, fabrication à façon joints (dimensions exactes), correction jeu tête de pompe (~10 € / pièce).",
+                    R: "Particules supprimées, MTBF augmentée, économie ~−97,6 %."
+                }
+            },
+            {
+                title: "Unifuges GS — carte détecteur de fuite (tête de pompe)",
+                category: ["Électronique", "Réparation", "Délai", "Unifuge"],
+                content: {
+                    S: "Carte propriétaire ≈ 500 €, empêche démarrage.",
+                    T: "Rétablir fonctionnement avec solution économique et rapide.",
+                    A: "Analyse carte (≈10 composants discrets), identification pièces défaillantes, commande standard, remplacement & tests, mise en stock composants.",
+                    R: "Carte remise en service, démarrage OK, coûts/délais bien inférieurs à l’OEM."
                 }
             }
         ];
@@ -291,19 +454,26 @@
         document.addEventListener('DOMContentLoaded', function () {
             const grid = document.getElementById('case-studies-grid');
             const filtersContainer = document.getElementById('filters');
+            const loadMoreBtn = document.getElementById('load-more-btn');
             const modal = document.getElementById('modal');
             const modalContent = document.getElementById('modal-content');
             const modalTitle = document.getElementById('modal-title');
             const modalBody = document.getElementById('modal-body');
             const modalClose = document.getElementById('modal-close');
 
-            function renderCaseStudies(filter = 'all') {
-                grid.innerHTML = '';
-                const filteredData = filter === 'all' 
-                    ? caseStudiesData 
-                    : caseStudiesData.filter(item => item.category.includes(filter));
+            const caseStudiesSection = document.getElementById('etudes-de-cas');
+            const ITEMS_PER_PAGE = 6;
+            let currentFilterData = [];
+            let isFullListDisplayed = false;
 
-                filteredData.forEach(study => {
+            function renderCaseStudies(data, initialLoad = true) {
+                grid.innerHTML = '';
+                loadMoreBtn.classList.add('hidden');
+                
+                // Détermine combien de cartes afficher
+                const limit = initialLoad ? ITEMS_PER_PAGE : data.length;
+                
+                data.slice(0, limit).forEach(study => {
                     const card = document.createElement('div');
                     card.className = 'case-study-card bg-white rounded-lg shadow-md p-5 border border-slate-200 cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
                     card.innerHTML = `
@@ -316,6 +486,24 @@
                     card.addEventListener('click', () => openModal(study));
                     grid.appendChild(card);
                 });
+                
+                // Affiche le bouton si le nombre total de cas est supérieur à la limite initiale
+                if (data.length > ITEMS_PER_PAGE && initialLoad) {
+                    loadMoreBtn.classList.remove('hidden');
+                    isFullListDisplayed = false;
+                } else {
+                    loadMoreBtn.classList.add('hidden');
+                    isFullListDisplayed = true;
+                }
+            }
+
+            function filterAndRender(filter = 'all', initialLoad = true) {
+                const filteredData = filter === 'all' 
+                    ? caseStudiesData 
+                    : caseStudiesData.filter(item => item.category.includes(filter));
+                
+                currentFilterData = filteredData;
+                renderCaseStudies(currentFilterData, initialLoad);
             }
 
             function openModal(study) {
@@ -346,8 +534,15 @@
                     document.querySelector('.filter-btn.active').classList.remove('active');
                     e.target.classList.add('active');
                     const filter = e.target.getAttribute('data-filter');
-                    renderCaseStudies(filter);
+                    filterAndRender(filter, true); // Initial load (limité à 6) après filtre
+                    
+                    // Défilement centré sur la section après le filtrage
+                    caseStudiesSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
+            });
+
+            loadMoreBtn.addEventListener('click', () => {
+                filterAndRender(document.querySelector('.filter-btn.active').getAttribute('data-filter'), false); // Charge la totalité
             });
 
             modalClose.addEventListener('click', closeModal);
@@ -357,59 +552,59 @@
                 }
             });
 
-            const costChartCtx = document.getElementById('cost-chart').getContext('2d');
-            const costChart = new Chart(costChartCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Coût Pièce'],
-                    datasets: [{
-                        label: 'Solution OEM',
-                        data: [420],
-                        backgroundColor: 'rgba(100, 116, 139, 0.6)',
-                        borderColor: 'rgba(100, 116, 139, 1)',
-                        borderWidth: 1
-                    }, {
-                        label: 'Solution Optimisée',
-                        data: [10],
-                        backgroundColor: 'rgba(37, 99, 235, 0.6)',
-                        borderColor: 'rgba(37, 99, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '€'
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                             callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            // const costChartCtx = document.getElementById('cost-chart').getContext('2d');
+            // const costChart = new Chart(costChartCtx, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: ['Coût Pièce'],
+            //         datasets: [{
+            //             label: 'Solution OEM',
+            //             data: [420],
+            //             backgroundColor: 'rgba(100, 116, 139, 0.6)',
+            //             borderColor: 'rgba(100, 116, 139, 1)',
+            //             borderWidth: 1
+            //         }, {
+            //             label: 'Solution Optimisée',
+            //             data: [10],
+            //             backgroundColor: 'rgba(37, 99, 235, 0.6)',
+            //             borderColor: 'rgba(37, 99, 235, 1)',
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         scales: {
+            //             y: {
+            //                 beginAtZero: true,
+            //                 ticks: {
+            //                     callback: function(value) {
+            //                         return value + '€'
+            //                     }
+            //                 }
+            //             }
+            //         },
+            //         plugins: {
+            //             legend: {
+            //                 position: 'top',
+            //             },
+            //             tooltip: {
+            //                  callbacks: {
+            //                     label: function(context) {
+            //                         let label = context.dataset.label || '';
+            //                         if (label) {
+            //                             label += ': ';
+            //                         }
+            //                         if (context.parsed.y !== null) {
+            //                             label += new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
+            //                         }
+            //                         return label;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
             
             const navbar = document.getElementById('navbar');
             let lastScrollTop = 0;
@@ -424,7 +619,8 @@
             });
 
 
-            renderCaseStudies();
+            // Rendu initial
+            filterAndRender('all', true);
             
             // Add active styles to filter buttons
             const style = document.createElement('style');
@@ -455,5 +651,3 @@
 
 </body>
 </html>
-
-
